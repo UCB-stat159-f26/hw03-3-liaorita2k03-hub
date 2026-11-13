@@ -2,7 +2,7 @@ import json
 import re
 from urllib.error import URLError
 from urllib.parse import quote
-from urllib.request import urlopen
+from urllib.request import Request, urlopen
 
 from ._clean import _clean_career_matches
 
@@ -12,8 +12,12 @@ _AGE_FORMATS = {"W": "birth_date", "M": "age"}
 
 
 def _download_text(path):
+    request = Request(
+        f"{_BASE_URL}/{path}",
+        headers={"User-Agent": "tennis-career-hw3/0.1"},
+    )
     try:
-        with urlopen(f"{_BASE_URL}/{path}", timeout=30) as response:
+        with urlopen(request, timeout=30) as response:
             return response.read().decode("utf-8-sig")
     except (URLError, TimeoutError) as error:
         raise RuntimeError(f"Could not download Tennis Abstract file: {path}") from error
