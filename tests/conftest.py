@@ -1,6 +1,10 @@
 import socket
-
+import matplotlib
 import pytest
+
+
+matplotlib.use("Agg")
+
 
 
 @pytest.fixture(autouse=True)
